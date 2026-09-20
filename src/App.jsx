@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 const highlights = ['Full Stack Development', 'Java & React', 'DSA & Problem Solving'];
 const skills = ['Java', 'C', 'DSA', 'HTML', 'CSS', 'JavaScript', 'React.js', 'Node.js', 'Express.js', 'Git', 'GitHub', 'Linux'];
 const education = [
-  'B.Tech – Marwadi University • CGPA: 8.74 • 4th Semester',
+  'B.Tech – with CGPA: 8.74 • 5th Semester',
   '12th – TPS College, Patna • 84%',
   '10th – DAV Public School • 80%',
 ];
