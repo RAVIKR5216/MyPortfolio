@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 const highlights = ['Full Stack Development', 'Java & React', 'DSA & Problem Solving'];
 const skills = ['Java', 'C', 'DSA', 'HTML', 'CSS', 'JavaScript', 'React.js', 'Node.js', 'Express.js', 'Git', 'GitHub', 'Linux'];
 const education = [
-  'B.Tech – with CGPA: 8.74 • 5th Semester',
+  'B.Tech – • CGPA: 8.74 • 4th Semester',
   '12th – TPS College, Patna • 84%',
   '10th – DAV Public School • 80%',
 ];
@@ -43,6 +43,8 @@ function App() {
   const [highlightIndex, setHighlightIndex] = useState(0);
   const [pointer, setPointer] = useState({ x: 0, y: 0 });
   const [balloonOffsets, setBalloonOffsets] = useState({});
+  const [portraitMode, setPortraitMode] = useState('idle');
+  const [portraitTilt, setPortraitTilt] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     const loaderTimer = window.setTimeout(() => setLoading(false), 2500);
@@ -87,6 +89,31 @@ function App() {
       ...current,
       [index]: { x: 0, y: 0 },
     }));
+  };
+
+  const handlePortraitMove = (event) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const offsetX = (event.clientX - rect.left) / rect.width;
+    const offsetY = (event.clientY - rect.top) / rect.height;
+
+    setPortraitMode('walking');
+    setPortraitTilt({
+      x: (0.5 - offsetY) * 18,
+      y: (offsetX - 0.5) * 18,
+    });
+  };
+
+  const handlePortraitLeave = () => {
+    setPortraitMode('idle');
+    setPortraitTilt({ x: 0, y: 0 });
+  };
+
+  const handlePortraitDown = () => {
+    setPortraitMode('dancing');
+  };
+
+  const handlePortraitUp = () => {
+    setPortraitMode('walking');
   };
 
   return (
@@ -138,22 +165,24 @@ function App() {
           </div>
 
           <div className="hero-card">
-            <div className="orb"></div>
-            <div className="hero-circle">
-              <div className="puppet-stage">
-                <div className="puppet-shadow"></div>
-                <div className="puppet">
-                  <div className="puppet-head">
-                    <span className="eye eye-left"></span>
-                    <span className="eye eye-right"></span>
-                    <span className="nose"></span>
-                    <span className="mouth"></span>
-                  </div>
-                  <div className="puppet-arm arm-left"></div>
-                  <div className="puppet-arm arm-right"></div>
-                  <div className="puppet-leg leg-left"></div>
-                  <div className="puppet-leg leg-right"></div>
-                </div>
+            <div
+              className={`hero-portrait-wrap ${portraitMode !== 'idle' ? 'hero-portrait-active' : ''} ${portraitMode === 'dancing' ? 'hero-portrait-dancing' : ''}`}
+              onPointerMove={handlePortraitMove}
+              onPointerLeave={handlePortraitLeave}
+              onPointerDown={handlePortraitDown}
+              onPointerUp={handlePortraitUp}
+              onPointerCancel={handlePortraitLeave}
+              style={{
+                '--tilt-x': `${portraitTilt.x}deg`,
+                '--tilt-y': `${portraitTilt.y}deg`,
+              }}
+            >
+              <div className="hero-portrait-inner">
+                <img
+                  src="./Mypic.png"
+                  alt="Ravi Kumar portrait"
+                  className="hero-portrait"
+                />
               </div>
             </div>
           </div>
@@ -258,8 +287,8 @@ function App() {
         </section>
 
         <div className="sticky-resume-actions">
-          <a href="/resume.html" target="_blank" rel="noreferrer" className="btn secondary small">View Resume</a>
-          <a href="/resume.pdf" download="Ravi_Kumar_Resume.pdf" className="btn primary small">Download Resume</a>
+          <a href="./resume.html" target="_blank" rel="noreferrer" className="btn secondary small">View Resume</a>
+          <a href="./resume.pdf" download="Ravi_Kumar_Resume.pdf" className="btn primary small">Download Resume</a>
         </div>
       </main>
     </div>

@@ -253,12 +253,109 @@ a { text-decoration: none; }
 
 .hero-card {
   position: relative;
-  min-height: 320px;
+  min-height: 420px;
   border-radius: 28px;
-  padding: 1.2rem;
+  padding: 1rem;
   background: rgba(255,255,255,0.06);
   backdrop-filter: blur(18px);
   overflow: hidden;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.18);
+}
+
+.hero-portrait-wrap {
+  position: relative;
+  width: min(100%, 460px);
+  height: 100%;
+  min-height: 390px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 0.2rem;
+  transform: perspective(1200px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.hero-portrait-inner {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center bottom;
+}
+
+.hero-portrait-wrap.hero-portrait-active .hero-portrait-inner {
+  animation: walk-in-place 0.9s ease-in-out infinite alternate;
+}
+
+.hero-portrait-wrap.hero-portrait-active .hero-portrait-inner::after {
+  content: "";
+  position: absolute;
+  inset: 12% 14% 4% 14%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(120, 242, 255, 0.28), rgba(143, 91, 255, 0.1) 42%, transparent 72%);
+  filter: blur(18px);
+  z-index: -1;
+  animation: aura-float 2s ease-in-out infinite alternate;
+}
+
+.hero-portrait-wrap.hero-portrait-dancing .hero-portrait-inner {
+  animation: dance-loop 0.34s ease-in-out infinite alternate;
+}
+
+.hero-portrait {
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  filter: saturate(1.05) contrast(1.04);
+  user-select: none;
+  pointer-events: none;
+}
+
+@keyframes walk-in-place {
+  0% {
+    transform: translateY(0) rotate(-1.5deg) scale(1);
+  }
+  50% {
+    transform: translateY(-7px) rotate(1deg) scale(1.012);
+  }
+  100% {
+    transform: translateY(-1px) rotate(2deg) scale(1.006);
+  }
+}
+
+@keyframes dance-loop {
+  0% {
+    transform: translateY(0) rotate(-8deg) scale(1.018);
+  }
+  25% {
+    transform: translateY(-12px) rotate(8deg) scale(1.028);
+  }
+  50% {
+    transform: translateY(-2px) rotate(-10deg) scale(1.02);
+  }
+  75% {
+    transform: translateY(-14px) rotate(10deg) scale(1.03);
+  }
+  100% {
+    transform: translateY(-2px) rotate(-6deg) scale(1.018);
+  }
+}
+
+@keyframes aura-float {
+  0% {
+    transform: scale(0.96) translateY(8px);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(1.04) translateY(-8px);
+    opacity: 1;
+  }
 }
 
 .hero-circle {
